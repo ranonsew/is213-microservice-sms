@@ -5,17 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "tsc",
-    "send": "node index.js"
+    "build": "tsc",
+    "serve": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "express": "^4.17.3",
     "twilio": "^3.75.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
     "typescript": "^4.6.2"
   }
