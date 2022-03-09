@@ -25,7 +25,9 @@ const {
 router.route('/')
   .post((req, res) => {
     const { message } = req.body; // retrieving message from the request body
-    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER || !PLACEHOLDER_PHONE_NUMBER) res.status(500).json(returnMsg("One or more variables are missing"));
+    // if message isn't applied or is not of type string
+    if (!message || typeof message != "string") res.status(400).json(returnMsg("message in body has not been implemented properly"));
+    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER || !PLACEHOLDER_PHONE_NUMBER) res.status(500).json(returnMsg("One or more environment variables are missing"));
     // if (!accountSID || !authToken || !twilioNumber || !userNumber) res.status(500).json(returnMsg("One or more variables are missing"));
     else {
       const twilioClient = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
