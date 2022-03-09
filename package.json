@@ -1,0 +1,22 @@
+{
+  "name": "is213-microservice-sms",
+  "version": "1.0.0",
+  "description": "##### *-** Plan **-* 1. NodeJS & NPM 2. Typescript 3. Twilio 4. Dockerize with Docker 5. dotenv dependency 6. get authentication id & token & twilio \"from\" number from .env 7. get user's \"to\" number from user info microservice 8. get sms \"body\" content from booked slot / updated test result microservices 9. steps 7 & 8 should be updated to use AMQP with RabbitMQ (use amqplib from amqp.node)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc",
+    "send": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "twilio": "^3.75.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "typescript": "^4.6.2"
+  }
+}
