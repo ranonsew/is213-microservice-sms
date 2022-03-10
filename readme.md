@@ -1,15 +1,9 @@
 # is213 microservice: SMS using Twilio
 
-## Plan
-1. NodeJS & NPM
-2. Typescript
-3. Twilio
-4. Dockerize with Docker
-5. dotenv dependency
-6. get authentication id & token & twilio "from" number from .env
-7. get user's "to" number from user info microservice
-8. get sms "body" content from booked slot / updated test result microservices
-9. steps 7 & 8 should be updated to use AMQP with RabbitMQ (use amqplib from amqp.node)
+## Why
+- is213 project work, sms microservice api thingy
+- api for twilio api I guess
+- built in Node
 
 ## Steps to use this microservice (for production testing)
 1. for compilation:
