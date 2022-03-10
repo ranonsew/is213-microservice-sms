@@ -2,9 +2,8 @@
 
 ## Why
 - is213 project work, sms microservice api thingy
-- api for twilio api I guess
-- built in Node
-- despite some of the naming styles, not ready for production deployment yet, still in development phase
+- built in Node, Express, Typescript
+- currently still in development, not yet ready for production (final project stages)
 
 ## Steps to use this microservice (for production testing)
 1. for compilation:
