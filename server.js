@@ -7,8 +7,8 @@ const express_1 = __importDefault(require("express"));
 const index_js_1 = __importDefault(require("./index.js"));
 const app = (0, express_1.default)();
 const PORT = 3002;
-// const HOST = "127.0.0.1";
-const HOST = "0.0.0.0";
+const PROD_HOST = "127.0.0.1"; // for without docker
+const HOST = "0.0.0.0"; // for docker
 // to use the microservice: 
 // https://HOST:PORT/v1/sms with a POST request
 // request body should be json, in the format of { "message": "placeholder string" }

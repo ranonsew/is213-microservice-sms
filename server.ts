@@ -3,7 +3,7 @@ import twilioSMS from "./index.js";
 
 const app = express();
 const PORT = 3002;
-// const HOST = "127.0.0.1"; // for without docker
+const PROD_HOST = "127.0.0.1"; // for without docker
 const HOST = "0.0.0.0"; // for docker
 
 // to use the microservice: 
