@@ -4,6 +4,7 @@
 - is213 project work, sms microservice api thingy
 - api for twilio api I guess
 - built in Node
+- despite some of the naming styles, not ready for production deployment yet, still in development phase
 
 ## Steps to use this microservice (for production testing)
 1. for compilation:
