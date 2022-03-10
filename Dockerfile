@@ -1,4 +1,6 @@
 # docker file time
+# need to edit a bit for the production versions
+# need to include a "RUN npm ci --only=production"
 
 # using node 16 alpine
 FROM node:16-alpine
