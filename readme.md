@@ -20,5 +20,8 @@
     3. npm run serve
 3. for sending messages:
     1. for example purposes, can use curl, insomnia, postman, or something similar
-    2. send a POST request to "http://localhost:3002/v1/sms" with 'Content-Type' header of 'application/json', body json data in the format of '{ "message": "placeholder_text", "receiver": "international_phone_number" }'
+    2. example below, POST request, application/json, + example body data structuring (position of receiver & message not specific)
+        ```
+        curl -X POST http://localhost:3002/v1/sms -H 'Content-Type: application/json' -d '{ "message":"placeholder_text", "receiver": "international_phone_number"}'
+        ```
     3. if successful, should have a response of "message has been sent to the user", and the user should receive an sms from the twilio number
