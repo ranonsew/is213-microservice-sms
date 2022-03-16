@@ -12,4 +12,4 @@ const PROD_HOST = "0.0.0.0"; // for docker
 app.use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use("/v1/sms", twilioSMS)
-  .listen(PORT, PROD_HOST, () => console.log(`App running on http://${DEV_HOST}:${PORT}`));
+  .listen(PORT, DEV_HOST, () => console.log(`App running on http://${DEV_HOST}:${PORT}`));
