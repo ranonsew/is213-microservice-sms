@@ -11,10 +11,10 @@ COPY package*.json ./
 # install dependencies based on package json
 RUN npm install
 # copy env variables
-COPY .env .
+COPY .env server.js index.js ./
 # bundling important js files, excluding ts and config files
-COPY server.js .
-COPY index.js .
+# COPY server.js .
+# COPY index.js .
 # expose port
 EXPOSE 3002
 
