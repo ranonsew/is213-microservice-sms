@@ -15,24 +15,6 @@ dotenv_1.default.config(); // pull .env file stuff into process.env
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER } = process.env;
 // object destructuring because it looks sort of cool
 // for main post request (sending message to the user)
-// router.route('/')
-//   .post((req, res) => {
-//     const { message, receiver } = req.body; // retrieving message from the request body
-//     // if message or receiver isn't applied or is not of type string
-//     if (!message || typeof message != "string" || !receiver || typeof receiver != "string") res.status(400).json(return_msg("One or more body variables has not been added"));
-//     if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) res.status(500).json(return_msg("One or more environment variables are missing"));
-//     else {
-//       const twilioClient = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-//       twilioClient.messages
-//         .create({
-//           from: TWILIO_PHONE_NUMBER,
-//           to: receiver,
-//           body: message
-//         })
-//         .then((msg) => res.status(200).json({ ...return_msg("Message has been sent to the user"), send_date: msg.dateSent }))
-//         .catch((err) => res.status(500).json({ ...return_msg("Something went wrong during the sending of the message"), err }));
-//     }
-//   });
 router.route('/')
     .post(async (req, res) => {
     const { message, receiver } = req.body;
