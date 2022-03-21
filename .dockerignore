@@ -1,2 +1,9 @@
+.dockerignore
 node_modules
 npm-debug.log
+Dockerfile
+.git
+.gitignore
+.npmrc
+old_things.txt
+# .env
