@@ -10,7 +10,7 @@
     1. set PROD_HOST if using with Docker, otherwise set DEV_HOST in the .listen() section
 1. for compilation:
     1. "npm install -g typescript"
-    2. "npm run build" or "tsc"
+    2. "tsc"
 2. for running js files after ts files compiled to js:
     1. create a .env file with the following contents:
           ```
