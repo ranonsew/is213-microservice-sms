@@ -3,18 +3,16 @@
 # need to include a "RUN npm ci --only=production"
 
 # using node 16 alpine
-FROM node:16-alpine
-# following linux convention
+FROM node:16.3.0-alpine@sha256:f5079a4f93c8e4fd07ffa93fc95f6484d7f4f40abd126c11810cb282483ab599
+ENV NODE_ENV production
 WORKDIR /usr/src/app
-# copy package and package-lock json
-COPY package*.json ./
+# copy necessary package json and files
+COPY package*.json .env server.js index.js ./
 # install dependencies based on package json
-RUN npm install
-# copy env variables
-COPY .env server.js index.js ./
-# bundling important js files, excluding ts and config files
-# COPY server.js .
-# COPY index.js .
+RUN npm ci --only=production
+# set running privileges
+USER node
+COPY --chown=node:node package*.json .env server.js index.js ./
 # expose port
 EXPOSE 3002
 
