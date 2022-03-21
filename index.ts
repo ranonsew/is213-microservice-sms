@@ -26,12 +26,6 @@ router.route('/')
         to: receiver,
         body: message
       });
-      // attempt to whatsapp (need to first connect: https://www.twilio.com/docs/whatsapp/tutorial/connect-number-business-profile)
-      // const result = await twilioClient.messages.create({
-      //   from: `whatsapp:${TWILIO_PHONE_NUMBER}`,
-      //   to: `whatsapp:${receiver}`,
-      //   body: message
-      // });
       if (!result) throw err_msg(500, "Something went wrong while sending the message.");
       res.status(200).json({ message: "Message has been sent to the user." });
     } catch (err: any) {
