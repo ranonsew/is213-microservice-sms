@@ -8,7 +8,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router(); // express router to separate from server
 // json response messages (for logging or other things)
-const return_msg = (message) => ({ message });
 const err_msg = (status, message) => ({ status, message });
 // environment variables and setting them up
 dotenv_1.default.config(); // pull .env file stuff into process.env
@@ -30,6 +29,12 @@ router.route('/')
             to: receiver,
             body: message
         });
+        // attempt to whatsapp (need to first connect: https://www.twilio.com/docs/whatsapp/tutorial/connect-number-business-profile)
+        // const result = await twilioClient.messages.create({
+        //   from: `whatsapp:${TWILIO_PHONE_NUMBER}`,
+        //   to: `whatsapp:${receiver}`,
+        //   body: message
+        // });
         if (!result)
             throw err_msg(500, "Something went wrong while sending the message.");
         res.status(200).json({ message: "Message has been sent to the user." });
