@@ -16,3 +16,20 @@ router.route('/')
         .catch((err) => res.status(500).json({ ...return_msg("Something went wrong during the sending of the message"), err }));
     }
   });
+
+// amqp server
+import amqp from "amqplib";
+const open = amqp.connect("amqp://localhost");
+open.then((connection) => connection.createChannel())
+  .then((channel) => {
+    channel.assertExchange("message_topic", "topic", { durable: true })
+  })
+  .catch(err => { throw err });
+
+// attempt at using whatsapp without paying lmao
+attempt to whatsapp (need to first connect: https://www.twilio.com/docs/whatsapp/tutorial/connect-number-business-profile)
+   const result = await twilioClient.messages.create({
+       from: `whatsapp:${TWILIO_PHONE_NUMBER}`,
+       to: `whatsapp:${receiver}`,
+       body: message
+     });
