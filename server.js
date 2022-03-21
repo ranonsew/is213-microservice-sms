@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_js_1 = __importDefault(require("./index.js"));
-const app = (0, express_1.default)();
+const app = express_1.default();
 const PORT = 3002;
-const HOST = "127.0.0.1"; // change to 0.0.0.0 for docker, change to 127.0.0.1 for in cmd testing
+const HOST = "0.0.0.0"; // change to 0.0.0.0 for docker, change to 127.0.0.1 for in cmd testing
 // to use the microservice: 
 // https://HOST:PORT/v1/sms with a POST request
 // request body should be json, in the format of { "message": "placeholder string" }
