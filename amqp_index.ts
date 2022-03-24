@@ -2,26 +2,13 @@
 // localhost:15672 -- rabbitmq
 
 import amqp from "amqplib";
-// const open = amqp.connect("amqp://localhost:5672");
-// const conn = amqp.connect({
-//   protocol: 'amqp',
-//   hostname: 'localhost',
-//   port: 5672,
-//   locale: 'en_US',
-//   heartbeat: 3600
-// });
+
+// necessary variables
 const exchange = { name: 'message_topic', type: 'topic' };
 const options = { durable: true };
 const queue = { name: 'Twilio-Sms', key: '*.notification' };
 
-// conn.then((connection) => connection.createChannel())
-//   .then((channel) => {
-//     channel.assertExchange(exchange.name, exchange.type, options);
-//     channel.assertQueue(queue.name, options);
-//     channel.bindQueue(queue.name, exchange.name, queue.key);
-//   })
-//   .catch(err => { throw err });
-
+// open connection to rabbitmq
 async function openChannel() {
   const connection = await amqp.connect({
     protocol: 'amqp',
@@ -34,6 +21,7 @@ async function openChannel() {
   return { channel, connection };
 };
 
+// close connection to rabbitmq
 function closeCh(ch: amqp.Channel, conn: amqp.Connection) {
   setTimeout(() => {
     ch.close();
@@ -41,17 +29,29 @@ function closeCh(ch: amqp.Channel, conn: amqp.Connection) {
   }, 500);
 };
 
-// server.ts
-const send = async () => {
+// sending over amqp
+const send = async (jsonData: string) => {
   const { channel, connection } = await openChannel();
   await channel.assertExchange(exchange.name, exchange.type, options);
   await channel.assertQueue(queue.name, options);
   await channel.bindQueue(queue.name, exchange.name, queue.key);
-  await channel.publish(exchange.name, queue.key, Buffer.from(""));
+  await channel.publish(exchange.name, queue.key, Buffer.from(jsonData));
   closeCh(channel, connection);
 };
 
-// index.ts
-const receive = async () => {};
+// receiving over amqp
+const receive = async () => {
+  const { channel, connection } = await openChannel();
+  await channel.assertQueue(queue.name, options);
+  await channel.consume(queue.name, msg => {
+    if (!msg) return; // if null then don't send anything
+    const jsonData = msg.content.toString(); // storing first for some other use?
+      // TODO: access twilio sending function
+    console.log(jsonData); // console log string first, idk what to do
+    channel.ack(msg); // acknowledge the message
+    channel.cancel('myconsumer');
+  }, { consumerTag: 'myconsumer' });
+  closeCh(channel, connection);
+};
 
 export { exchange, options, queue, send, receive };
