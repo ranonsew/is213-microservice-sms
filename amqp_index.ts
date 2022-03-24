@@ -77,5 +77,3 @@ const receive = async () => {
   }, { consumerTag: 'myconsumer' });
   closeCh(channel, connection);
 };
-
-export { exchange, options, queue, send, receive };
