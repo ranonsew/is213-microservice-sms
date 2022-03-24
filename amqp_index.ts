@@ -51,11 +51,12 @@ const send = async (jsonData: string) => {
 
 // receiving over amqp
 const receive = async () => {
-  const { channel, connection } = await openChannel();
-  await channel.assertQueue(queue.name, options);
-  await channel.consume(queue.name, async msg => {
+  const { channel, connection } = await openChannel(); // open connection
+  await channel.assertQueue(queue.name, options); // assert queue
+  await channel.consume(queue.name, async msg => { // consume queue data and do processing
     if (!msg) return; // if null then don't send anything
-    const { message, receiver } = JSON.parse(msg.content.toString()); // storing first for some other use?
+    const { message, receiver } = JSON.parse(msg.content.toString());
+    console.log(message, receiver);
     try {
       if (!message || typeof message != "string" || !receiver || typeof receiver != "string") throw err_msg(400, "One or more body variables have not been added.");
       if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) throw err_msg(500, "One or more environment variables are missing.");
@@ -67,13 +68,11 @@ const receive = async () => {
       });
       if (!result) throw err_msg(500, "Something went wrong while sending the message.");
       console.log({ message: "Message has been sent to the user." });
-    } catch (err) {
-      console.log(err);
-    }
-
-    console.log(message, receiver); // console log string first, idk what to do
+    } catch (err) { console.log(err); }
     channel.ack(msg); // acknowledge the message
-    channel.cancel('myconsumer');
-  }, { consumerTag: 'myconsumer' });
-  closeCh(channel, connection);
+    channel.cancel('myconsumer'); // stop receiving messages
+  }, { consumerTag: 'myconsumer' }); // setting tag to stop receiving for the fire and forget
+  closeCh(channel, connection); // close connection
 };
+
+export { send, receive }
