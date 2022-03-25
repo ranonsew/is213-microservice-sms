@@ -8,7 +8,7 @@ from amqp_setup import sendErrorLog, sendActivityLog, sendMsg
 app = Flask(__name__)
 CORS(app)
 
-# afaik, for testing purposes
+# testing purposes
 @app.route("/error_log", methods=["POST"])
 def logError():
   if request.is_json:
