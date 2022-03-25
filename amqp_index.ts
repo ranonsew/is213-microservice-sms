@@ -28,28 +28,29 @@ async function openChannel() {
     heartbeat: 3600
   });
   const channel = await connection.createChannel();
+  await channel.assertExchange(exchange.name, exchange.type, options);
   return { channel, connection };
 };
 
 // helper function: close connection to rabbitmq
-function closeCh(ch: amqp.Channel, conn: amqp.Connection) {
+function closeChannel(ch: amqp.Channel, conn: amqp.Connection) {
   setTimeout(() => {
     ch.close();
     conn.close();
   }, 500);
 };
 
-// sending over amqp
+// sending over amqp (done by the payment microservice)
 const send = async (jsonData: string) => {
   const { channel, connection } = await openChannel();
-  await channel.assertExchange(exchange.name, exchange.type, options);
+  // await channel.assertExchange(exchange.name, exchange.type, options);
   await channel.assertQueue(queue.name, options);
   await channel.bindQueue(queue.name, exchange.name, queue.key);
   await channel.publish(exchange.name, queue.key, Buffer.from(jsonData));
-  closeCh(channel, connection);
+  closeChannel(channel, connection);
 };
 
-// receiving over amqp
+// receiving over amqp (done by this one)
 const receive = async () => {
   const { channel, connection } = await openChannel(); // open connection
   await channel.assertQueue(queue.name, options); // assert queue
@@ -72,7 +73,7 @@ const receive = async () => {
     channel.ack(msg); // acknowledge the message
     channel.cancel('myconsumer'); // stop receiving messages
   }, { consumerTag: 'myconsumer' }); // setting tag to stop receiving for the fire and forget
-  closeCh(channel, connection); // close connection
+  closeChannel(channel, connection); // close connection
 };
 
 export { send, receive }
