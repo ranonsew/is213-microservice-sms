@@ -14,5 +14,5 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true       /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["amqp_server.ts"], // excluding this for now since I dunno how it works
+  "exclude": ["old_amqp.ts"], // excluding this for now since I dunno how it works
 }
