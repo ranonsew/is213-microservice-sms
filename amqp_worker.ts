@@ -32,11 +32,11 @@ async function consume() {
     heartbeat: 3600
   });
   const channel = await connection.createChannel();
-  ch = channel;
-  conn = connection;
-  await channel.assertExchange(exchange.name, exchange.type, options);
-  await channel.assertQueue(queue.name, options);
-  await channel.consume(queue.name, async msg => { // consume queue data and do processing
+  ch = channel; // adding the channel object to ch
+  conn = connection; // adding the connection object to conn
+  await channel.assertExchange(exchange.name, exchange.type, options); // declaring exchange
+  await channel.assertQueue(queue.name, options); // declaring the queue
+  await channel.consume(queue.name, async msg => { // consume queue data and do processing (twilio stuff)
     if (!msg) return; // if null then don't send anything
     const { message, receiver } = JSON.parse(msg.content.toString());
     console.log(message, receiver);
