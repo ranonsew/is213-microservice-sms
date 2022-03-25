@@ -33,19 +33,19 @@ for topic in topics.keys():
   channel.queue_bind(exchange=exchange_name, queue=top.get("name"), routing_key=top.get("key"))
 
 
-# helper functions for sending data
-# topic: topic dictionary -- error, activity, or notification
-# data: error message string or json.dumps({ "message": "hello world", "receiver": "phone number" })
+# helper functions for sending data using amqp
 def send(topic, data):
-  channel.basic_publish(exchange=exchange_name, routing_key=topic.get("key"), body=data)
-
-# flask stuff goes here
+  channel.basic_publish(
+    exchange=exchange_name,
+    routing_key=topic.get("key"),
+    body=data,
+    properties=pika.BasicProperties(delivery_mode = 2)
+  )
+# flask stuff helper functions
 def sendErrorLog(error_log):
   send(topics.get("error"), error_log)
-
 def sendActivityLog(activity_log):
   send(topics.get("activity"), activity_log)
-
 def sendMsg(smsData):
   send(topics.get("notification"), smsData)
 
