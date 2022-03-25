@@ -57,7 +57,7 @@ async function consume() {
 }
 
 // perform the consume function to open the connection and listen for messages
-consume();
+consume(); // done like this since async await only works with functions
 
 // on closing with ctrl+c, perform the closing of the channel and connection
 process.on('exit', (code) => {

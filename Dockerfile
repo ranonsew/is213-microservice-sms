@@ -2,6 +2,8 @@
 # need to edit a bit for the production versions
 # need to include a "RUN npm ci --only=production"
 
+# this docker file is for the http version of the twilio sms microservice
+
 # using node 16 alpine
 FROM node:16.3.0-alpine@sha256:f5079a4f93c8e4fd07ffa93fc95f6484d7f4f40abd126c11810cb282483ab599
 ENV NODE_ENV production

@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const twilio_1 = require("twilio");
 const dotenv_1 = __importDefault(require("dotenv"));
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router(); // express router to separate from server
+const express_1 = require("express");
+const router = express_1.Router(); // express router to separate from server
 // json response messages (for logging or other things)
 const err_msg = (status, message) => ({ status, message });
 // environment variables and setting them up
