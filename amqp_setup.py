@@ -3,10 +3,9 @@
 import pika
 
 exchange = { "name": "log_topic", "type": "topic" }
-queue = {
+log = {
   "error": { "name": "Error_Log", "key": "*.error" },
-  "activity": { "name": "Activity_Log", "key": "*.activity" },
-  "notification": { "name": "Twilio-Sms", "key": "*.notification" }
+  "activity": { "name": "Activity_Log", "key": "*.activity" }
 }
 notification = { "name": "Twilio-Sms", "key": "*.notification" }
 
@@ -28,6 +27,12 @@ def closeChannel(ch: BlockingChannel, conn: BlockingConnection):
   conn.close()
 
 def sendLog():
+  channel, connection = openConnection()
+  for key in log.keys():
+    channel.queue_declare
+  pass
+
+def callback():
   pass
 
 def receiveLog():
@@ -39,13 +44,3 @@ def sendMsg(jsonData: string):
   channel.queue_bind(exchange=exchange.get("name"), queue=notification.get("name"), routing_key=notification.get("key"))
   channel.basic_publish(exchange=exchange.get("name"), routing_key=notification.get("key"), body=jsonData)
   closeChannel(channel, connection)
-
-def msgCallback(channel, method, properties, body):
-  
-
-def receiveMsg():
-  channel, connection = openConnection()
-  channel.basic_consume(queue=notification.get("name"))
-  channel.basic_ack()
-  closeChannel(channel, connection)
-  pass

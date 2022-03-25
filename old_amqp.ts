@@ -32,15 +32,27 @@ async function openChannel() {
   return { channel, connection };
 };
 
-// global variables for process.on('exit') to close channel and connection smoothly
-let ch: amqp.Channel;
-let conn: amqp.Connection;
+// helper function: close connection to rabbitmq
+function closeChannel(ch: amqp.Channel, conn: amqp.Connection) {
+  setTimeout(() => {
+    ch.close();
+    conn.close();
+  }, 500);
+};
+
+// sending over amqp (done by the payment microservice)
+// const send = async (jsonData: string) => {
+//   const { channel, connection } = await openChannel();
+//   // await channel.assertExchange(exchange.name, exchange.type, options);
+//   await channel.assertQueue(queue.name, options);
+//   await channel.bindQueue(queue.name, exchange.name, queue.key);
+//   await channel.publish(exchange.name, queue.key, Buffer.from(jsonData));
+//   closeChannel(channel, connection);
+// };
 
 // receiving over amqp (done by this one)
 const receive = async () => {
   const { channel, connection } = await openChannel(); // open connection
-  ch = channel;
-  conn = connection
   await channel.assertQueue(queue.name, options); // assert queue
   await channel.consume(queue.name, async msg => { // consume queue data and do processing
     if (!msg) return; // if null then don't send anything
@@ -58,13 +70,12 @@ const receive = async () => {
       if (!result) throw err_msg(500, "Something went wrong while sending the message.");
       console.log({ message: "Message has been sent to the user." });
     } catch (err) { console.log(err); }
-    // setTimeout(() => channel.ack(msg), 8000); // for testing purposes (scenario: consumer crashes midway because this code is shit)
     channel.ack(msg); // acknowledge the message
-  }, { noAck: false });
+    channel.cancel('myconsumer'); // stop receiving messages
+  }, { consumerTag: 'myconsumer' }); // setting tag to stop receiving for the fire and forget
+  closeChannel(channel, connection); // close connection
 };
 
 receive();
-process.on('exit', (code) => {
-  ch.close();
-  conn.close();
-});
+
+// export { send, receive }
