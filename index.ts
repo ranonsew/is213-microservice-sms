@@ -1,8 +1,8 @@
 import { Twilio } from "twilio";
 import dotenv from "dotenv";
-import express from "express";
+import { Router } from "express";
 
-const router = express.Router(); // express router to separate from server
+const router = Router(); // express router to separate from server
 
 // json response messages (for logging or other things)
 const err_msg = (status: number, message: string) => ({ status, message });
