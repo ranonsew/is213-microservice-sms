@@ -18,8 +18,11 @@ const exchange = { name: 'message_topic', type: 'topic' };
 const options = { durable: true };
 const queue = { name: 'Twilio-Sms', key: '*.notification' };
 
-// helper function: open connection to rabbitmq
-async function openChannel() {
+// global variables for process.on('exit') to close channel and connection smoothly
+let ch: amqp.Channel;
+let conn: amqp.Connection;
+
+async function consume() {
   const connection = await amqp.connect({
     protocol: 'amqp',
     hostname: 'localhost',
@@ -28,20 +31,10 @@ async function openChannel() {
     heartbeat: 3600
   });
   const channel = await connection.createChannel();
-  await channel.assertExchange(exchange.name, exchange.type, options);
-  return { channel, connection };
-};
-
-// global variables for process.on('exit') to close channel and connection smoothly
-let ch: amqp.Channel;
-let conn: amqp.Connection;
-
-// receiving over amqp (done by this one)
-const receive = async () => {
-  const { channel, connection } = await openChannel(); // open connection
   ch = channel;
-  conn = connection
-  await channel.assertQueue(queue.name, options); // assert queue
+  conn = connection;
+  await channel.assertExchange(exchange.name, exchange.type, options);
+  await channel.assertQueue(queue.name, options);
   await channel.consume(queue.name, async msg => { // consume queue data and do processing
     if (!msg) return; // if null then don't send anything
     const { message, receiver } = JSON.parse(msg.content.toString());
@@ -61,9 +54,9 @@ const receive = async () => {
     // setTimeout(() => channel.ack(msg), 8000); // for testing purposes (scenario: consumer crashes midway because this code is shit)
     channel.ack(msg); // acknowledge the message
   }, { noAck: false });
-};
+}
 
-receive();
+consume();
 process.on('exit', (code) => {
   ch.close();
   conn.close();
