@@ -56,7 +56,10 @@ async function consume() {
   }, { noAck: false });
 }
 
+// perform the consume function to open the connection and listen for messages
 consume();
+
+// on closing with ctrl+c, perform the closing of the channel and connection
 process.on('exit', (code) => {
   ch.close();
   conn.close();
