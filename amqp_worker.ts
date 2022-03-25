@@ -14,14 +14,15 @@ const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER} = process.en
 // object destructuring because it looks sort of cool
 
 // variables for amqp
-const exchange = { name: 'message_topic', type: 'topic' };
+const exchange = { name: 'notif_topic', type: 'topic' };
 const options = { durable: true };
-const queue = { name: 'Twilio-Sms', key: '*.notification' };
+const queue = { name: 'Twilio-Sms', key: '#' };
 
 // global variables for process.on('exit') to close channel and connection smoothly
 let ch: amqp.Channel;
 let conn: amqp.Connection;
 
+// consume function, opens the connection and channel
 async function consume() {
   const connection = await amqp.connect({
     protocol: 'amqp',
@@ -51,7 +52,6 @@ async function consume() {
       if (!result) throw err_msg(500, "Something went wrong while sending the message.");
       console.log({ message: "Message has been sent to the user." });
     } catch (err) { console.log(err); }
-    // setTimeout(() => channel.ack(msg), 8000); // for testing purposes (scenario: consumer crashes midway because this code is shit)
     channel.ack(msg); // acknowledge the message
   }, { noAck: false });
 }
