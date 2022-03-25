@@ -36,7 +36,7 @@ for queue in queues.values():
   channel.queue_bind(exchange=queue.get("exchange"), queue=queue.get("name"), routing_key=queue.get("key"))
 
 
-# helper functions for publishing data to amqp
+# export: helper functions for publishing data to amqp
 def send(exchange, queue, data):
   channel.basic_publish(
     exchange=exchange,
