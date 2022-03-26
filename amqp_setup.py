@@ -56,7 +56,7 @@ def sendMsg(smsData):
 
 
 # closing channel when process is ended
-def closeChannel():
-  channel.close()
-  connection.close()
-atexit.register(closeChannel())
+# def closeChannel():
+#   channel.close()
+#   connection.close()
+# atexit.register(closeChannel())

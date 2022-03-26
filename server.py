@@ -15,6 +15,10 @@ def logError():
     try:
       error_log = json.dumps(request.get_json())
       sendErrorLog(error_log)
+      return jsonify({
+        "code": 201,
+        "message": "Successful sending"
+      })
     except Exception as e:
       # Unexpected error in code
       exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -37,6 +41,10 @@ def logActivity():
     try:
       activity_log = json.dumps(request.get_json())
       sendActivityLog(activity_log)
+      return jsonify({
+        "code": 201,
+        "message": "Successful sending"
+      })
     except Exception as e:
       # Unexpected error in code
       exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -59,6 +67,10 @@ def sendMessage():
     try:
       message = json.dumps(request.get_json())
       sendMsg(message)
+      return jsonify({
+        "code": 201,
+        "message": "Successful sending"
+      })
     except Exception as e:
       # Unexpected error in code
       exc_type, exc_obj, exc_tb = sys.exc_info()
