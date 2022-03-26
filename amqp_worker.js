@@ -39,7 +39,6 @@ async function consume() {
         if (!msg)
             return; // if null then don't send anything
         const { message, receiver } = JSON.parse(msg.content.toString());
-        console.log(message, receiver);
         try {
             if (!message || typeof message != "string" || !receiver || typeof receiver != "string")
                 throw err_msg(400, "One or more body variables have not been added.");

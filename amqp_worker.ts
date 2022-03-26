@@ -39,7 +39,6 @@ async function consume() {
   await channel.consume(queue.name, async msg => { // consume queue data and do processing (twilio stuff)
     if (!msg) return; // if null then don't send anything
     const { message, receiver } = JSON.parse(msg.content.toString());
-    console.log(message, receiver);
     try {
       if (!message || typeof message != "string" || !receiver || typeof receiver != "string") throw err_msg(400, "One or more body variables have not been added.");
       if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) throw err_msg(500, "One or more environment variables are missing.");
