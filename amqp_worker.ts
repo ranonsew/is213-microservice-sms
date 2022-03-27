@@ -1,6 +1,3 @@
-// rabbitmq-mgmt container id: 0c476c4886f8
-// localhost:15672 -- rabbitmq
-
 import { Twilio } from "twilio";
 import dotenv from "dotenv";
 import amqp from "amqplib";
