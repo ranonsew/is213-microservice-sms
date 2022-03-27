@@ -27,7 +27,7 @@ def logError():
       print(ex_str)
       return jsonify({
         "code": 500,
-        "message": "place_order.py internal error: " + ex_str
+        "message": ex_str
       }), 500
   return jsonify({
     "code": 400,
@@ -53,7 +53,7 @@ def logActivity():
       print(ex_str)
       return jsonify({
         "code": 500,
-        "message": "place_order.py internal error: " + ex_str
+        "message": ex_str
       }), 500
   return jsonify({
     "code": 400,
@@ -79,7 +79,7 @@ def sendMessage():
       print(ex_str)
       return jsonify({
         "code": 500,
-        "message": "place_order.py internal error: " + ex_str
+        "message": ex_str
       }), 500
   return jsonify({
     "code": 400,

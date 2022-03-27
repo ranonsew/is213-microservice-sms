@@ -68,7 +68,7 @@ def check_setup():
 
 # export: helper functions for publishing data to amqp
 def send(exchange, queue, data):
-  check_setup()
+  # check_setup() # currently causes error when trying to work things out
   channel.basic_publish(
     exchange=exchange,
     routing_key=queue.get("key"),
