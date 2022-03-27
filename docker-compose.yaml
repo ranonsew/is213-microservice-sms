@@ -1,0 +1,44 @@
+version: "3.8"
+
+volumes:
+  rabbitmq_data:
+
+services:
+  # rabbitmq message broker
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: esd-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  # amqp worker
+  amqpWorker:
+    build:
+      context: ./
+      dockerfile: sms.Dockerfile
+    image: ranonsew/amqpworker:test1
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+    restart: always
+
+  # python test server
+  amqpTestServer:
+    build:
+      context: ./
+      dockerfile: amqpTest.Dockerfile
+    image: ranonsew/amqptestserver:test1
+    depends_on:
+      - rabbitmq
+      - amqpWorker
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+    ports:
+      - "47170:5101"
