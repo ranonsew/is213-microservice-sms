@@ -1,6 +1,7 @@
 # python example is213 amqp for sending and receiving
 
 import pika
+from os import environ
 import atexit
 
 
@@ -14,12 +15,14 @@ queues = {
   "notif": { "name": "Twilio-Sms", "key": "#", "exchange": notif_exchange }
 }
 
+rabbitHost = environ.get("rabbit_host") or "localhost"
+rabbitPort = environ.get("rabbit_port") or 5672
 
 # open connection and setup queues
 connection = pika.BlockingConnection(
   pika.ConnectionParameters(
-    host="localhost",
-    port="5672",
+    host=rabbitHost,
+    port=rabbitPort,
     locale="en-US",
     heartbeat=3600
   )
