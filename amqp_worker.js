@@ -1,6 +1,4 @@
 "use strict";
-// rabbitmq-mgmt container id: 0c476c4886f8
-// localhost:15672 -- rabbitmq
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
