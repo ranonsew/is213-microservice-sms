@@ -11,6 +11,8 @@ const err_msg = (status, message) => ({ status, message });
 // environment variables for twilio
 dotenv_1.default.config(); // pull .env file stuff into process.env
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER } = process.env;
+const rabbitHost = process.env.rabbit_host || 'localhost';
+const rabbitPort = process.env.rabbit_port || 5672;
 // object destructuring because it looks sort of cool
 // variables for amqp
 const exchange = { name: 'notif_topic', type: 'topic' };
@@ -23,8 +25,8 @@ let conn;
 async function consume() {
     const connection = await amqplib_1.default.connect({
         protocol: 'amqp',
-        hostname: 'localhost',
-        port: 5672,
+        hostname: rabbitHost,
+        port: rabbitPort,
         locale: 'en_US',
         heartbeat: 3600
     });
