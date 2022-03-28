@@ -9,12 +9,12 @@ FROM node:16.3.0-alpine@sha256:f5079a4f93c8e4fd07ffa93fc95f6484d7f4f40abd126c118
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 # copy necessary package json and files
-COPY package*.json .env server.js index.js ./
+COPY package*.json .env src/http/server.js src/http/index.js ./
 # install dependencies based on package json
 RUN npm ci --only=production
 # set running privileges
 USER node
-COPY --chown=node:node package*.json .env server.js index.js ./
+COPY --chown=node:node package*.json .env src/http/server.js src/http/index.js ./
 # expose port
 EXPOSE 3002
 
