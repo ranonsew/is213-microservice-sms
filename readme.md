@@ -5,7 +5,7 @@
 - built in Node, Express, Typescript
 - currently still in development, not yet ready for production (final project stages)
 
-## Steps to use this microservice (for production testing)
+## Steps to use the http microservice (for production testing)
 0. before compilation
     1. set PROD_HOST if using with Docker, otherwise set DEV_HOST in the .listen() section
 1. for compilation:
