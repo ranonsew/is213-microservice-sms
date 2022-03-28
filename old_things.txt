@@ -1,34 +1,3 @@
-router.route('/')
-  .post((req, res) => {
-    const { message, receiver } = req.body; // retrieving message from the request body
-    // if message or receiver isn't applied or is not of type string
-    if (!message || typeof message != "string" || !receiver || typeof receiver != "string") res.status(400).json(return_msg("One or more body variables has not been added"));
-    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) res.status(500).json(return_msg("One or more environment variables are missing"));
-    else {
-      const twilioClient = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-      twilioClient.messages
-        .create({
-          from: TWILIO_PHONE_NUMBER,
-          to: receiver,
-          body: message
-        })
-        .then((msg) => res.status(200).json({ ...return_msg("Message has been sent to the user"), send_date: msg.dateSent }))
-        .catch((err) => res.status(500).json({ ...return_msg("Something went wrong during the sending of the message"), err }));
-    }
-  });
-
-// attempt at using whatsapp without paying lmao
-attempt to whatsapp (need to first connect: https://www.twilio.com/docs/whatsapp/tutorial/connect-number-business-profile)
-   const result = await twilioClient.messages.create({
-       from: `whatsapp:${TWILIO_PHONE_NUMBER}`,
-       to: `whatsapp:${receiver}`,
-       body: message
-     });
-
-
-
-
-
 // old amqp
 // rabbitmq-mgmt container id: 0c476c4886f8
 // localhost:15672 -- rabbitmq
@@ -61,53 +30,13 @@ async function openChannel() {
   });
   const channel = await connection.createChannel();
   await channel.assertExchange(exchange.name, exchange.type, options);
-  return { channel, connection };
-};
-
-// helper function: close connection to rabbitmq
-function closeChannel(ch: amqp.Channel, conn: amqp.Connection) {
-  setTimeout(() => {
-    ch.close();
-    conn.close();
-  }, 500);
+  return channel;
 };
 
 // sending over amqp (done by the payment microservice)
 // const send = async (jsonData: string) => {
-//   const { channel, connection } = await openChannel();
-//   // await channel.assertExchange(exchange.name, exchange.type, options);
+//   const channel = await openChannel();
 //   await channel.assertQueue(queue.name, options);
 //   await channel.bindQueue(queue.name, exchange.name, queue.key);
 //   await channel.publish(exchange.name, queue.key, Buffer.from(jsonData));
-//   closeChannel(channel, connection);
 // };
-
-// receiving over amqp (done by this one)
-const receive = async () => {
-  const { channel, connection } = await openChannel(); // open connection
-  await channel.assertQueue(queue.name, options); // assert queue
-  await channel.consume(queue.name, async msg => { // consume queue data and do processing
-    if (!msg) return; // if null then don't send anything
-    const { message, receiver } = JSON.parse(msg.content.toString());
-    console.log(message, receiver);
-    try {
-      if (!message || typeof message != "string" || !receiver || typeof receiver != "string") throw err_msg(400, "One or more body variables have not been added.");
-      if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) throw err_msg(500, "One or more environment variables are missing.");
-      const twilioClient = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-      const result = await twilioClient.messages.create({
-        from: TWILIO_PHONE_NUMBER,
-        to: receiver,
-        body: message
-      });
-      if (!result) throw err_msg(500, "Something went wrong while sending the message.");
-      console.log({ message: "Message has been sent to the user." });
-    } catch (err) { console.log(err); }
-    channel.ack(msg); // acknowledge the message
-    channel.cancel('myconsumer'); // stop receiving messages
-  }, { consumerTag: 'myconsumer' }); // setting tag to stop receiving for the fire and forget
-  closeChannel(channel, connection); // close connection
-};
-
-receive();
-
-// export { send, receive }
