@@ -19,7 +19,7 @@ services:
   amqpWorker:
     build:
       context: ./
-      dockerfile: sms.Dockerfile
+      dockerfile: src/amqp/sms.Dockerfile
     image: ranonsew/amqpworker:test1
     depends_on:
       - rabbitmq
@@ -32,7 +32,7 @@ services:
   amqpTestServer:
     build:
       context: ./
-      dockerfile: amqpTest.Dockerfile
+      dockerfile: src/amqp/amqpTest.Dockerfile
     image: ranonsew/amqptestserver:test1
     depends_on:
       - rabbitmq
