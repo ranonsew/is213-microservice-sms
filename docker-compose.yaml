@@ -1,5 +1,6 @@
 version: "3.8"
 
+# necessary for the rabbitmq message broker
 volumes:
   rabbitmq_data:
 
