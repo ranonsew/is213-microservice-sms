@@ -1,6 +1,7 @@
 import { Twilio } from "twilio";
 import dotenv from "dotenv";
 import amqp from "amqplib";
+// import { openConnection } from './consumer_setup';
 
 // json err response message template
 const err_msg = (status: number, message: string) => ({ status, message });
@@ -12,9 +13,9 @@ const {
   TWILIO_AUTH_TOKEN,
   TWILIO_PHONE_NUMBER
 } = process.env;
+// object destructuring because it looks sort of cool
 const rabbitHost = process.env.rabbit_host || 'localhost';
 const rabbitPort = <number><any>process.env.rabbit_port || 5672;
-// object destructuring because it looks sort of cool
 
 // variables for amqp
 const exchange = { name: 'notif_topic', type: 'topic' };
@@ -35,6 +36,7 @@ async function consume() {
     heartbeat: 3600
   });
   const channel = await connection.createChannel();
+  // const { channel, connection } = await openConnection();
   ch = channel; // adding the channel object to ch
   conn = connection; // adding the connection object to conn
   await channel.assertExchange(exchange.name, exchange.type, options); // declaring exchange
@@ -62,7 +64,7 @@ async function consume() {
 consume(); // done like this since async await only works with functions
 
 // on closing with ctrl+c, perform the closing of the channel and connection
-process.on('exit', (code) => {
-  ch.close();
-  conn.close();
-});
+// process.on('exit', (code) => {
+//   ch.close();
+//   conn.close();
+// });
