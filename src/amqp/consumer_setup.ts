@@ -11,6 +11,5 @@ export async function openConnection() {
     locale: 'en_US',
     heartbeat: 3600
   });
-  const channel = await connection.createChannel();
-  return { channel, connection };
+  return await connection.createChannel();
 }
