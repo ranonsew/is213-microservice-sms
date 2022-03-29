@@ -5,28 +5,24 @@
 - built in Node, Express, Typescript
 - currently still in development, not yet ready for production (final project stages)
 
-## Steps to use the http microservice (for production testing)
-0. before compilation
-    1. set PROD_HOST if using with Docker, otherwise set DEV_HOST in the .listen() section
-1. for compilation:
-    1. "npm install -g typescript"
-    2. "tsc"
-2. for running js files after ts files compiled to js:
-    1. create a .env file with the following contents:
-          ```
-        - TWILIO_ACCOUNT_SID="<account_sid>"
-        - TWILIO_AUTH_TOKEN="<auth_token>"
-        - TWILIO_PHONE_NUMBER="<twilio_number>"
-          ```
-    2. "npm install"
-    3. "npm run serve" or "node server.js"
-3. for sending messages:
-    - e.g. using curl, postman, insomnia, etc.
-    - 2 examples below using curl, send POST request, body should contain "message" and "receiver", both are strings.
-        ```
-        curl -X POST http://localhost:3002/v1/sms -H 'Content-Type: application/json' -d '{ "message":"<placeholder_text>", "receiver": "<international_phone_number>"}'
-        ```
-        ```
-        curl -X POST http://localhost:3002/v1/sms -H --data-urlencode "message=<placeholder_text>" --data-urlencode "receiver=<international_phone_number>"
-        ```
-    - if successful, should have a response of "message has been sent to the user", and the user should receive an sms from the twilio number, otherwise a different message will be received.
+
+## Versions
+- 🐰 [AMQP version](./src/amqp/readme.md)
+
+- 💻 [HTTP version](./src/http/readme.md)
+
+
+## Development steps
+1. Ensure directory is "is213-microservice-sms"
+2. Install the necessary dependencies
+    1. Global Dependencies: "npm install -g typescript"
+    2. For Python: "python -m pip install -r amqpTest.req.txt"
+    3. For JS: "npm install"
+3. Create a .env file with the following items
+    ```
+    - TWILIO_ACCOUNT_SID="<account_sid>"
+    - TWILIO_AUTH_TOKEN="<auth_token>"
+    - TWILIO_PHONE_NUMBER="<twilio_number>"
+    ```
+4. For dockerization, ensure terminal directory is the root dir for the repo
+    - i.e. cmd directory should be "is213-microservice-sms"
