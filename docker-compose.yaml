@@ -30,6 +30,19 @@ services:
       rabbit_port: 5672
     restart: always
 
+  # activity worker -- activity log
+  activityWorker:
+    build:
+      context: ./
+      dockerfile: src/amqp/activity.Dockerfile
+    image: ranonsew/activityworker:test3
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+    restart: always
+
   # python test server
   amqpTestServer:
     build:
