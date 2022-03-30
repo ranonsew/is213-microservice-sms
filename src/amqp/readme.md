@@ -2,7 +2,7 @@
 
 ## Docker Compose
 1. to run docker compose, first ensure the root directory in cmd is "is213-microservice-sms"
-2. run "docker-compose -p <project-name> up"
+2. run "docker-compose -p <project-name> up -d"
 3. unfortunately there will inevitably be an error because server.py will somehow run before rabbitmq does (unsure how to fix)
 4. open docker desktop and manually run amqpTestServer container
 5. it should be running fine now

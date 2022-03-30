@@ -9,7 +9,7 @@ notif_exchange = "notif_topic"
 # setup queues
 queues = {
   "error": { "name": "Error_Log", "key": "*.error", "exchange": log_exchange },
-  "activity": { "name": "Activity_Log", "key": "*.activity", "exchange": log_exchange },
+  "activity": { "name": "Activity_Log", "key": "#", "exchange": log_exchange },
   "notif": { "name": "Twilio-Sms", "key": "#", "exchange": notif_exchange }
 }
 

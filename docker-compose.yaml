@@ -1,3 +1,4 @@
+# from root dir /is213-microservice-sms/
 version: "3.8"
 
 # necessary for the rabbitmq message broker
@@ -16,12 +17,12 @@ services:
     volumes: 
       - rabbitmq_data:/var/lib/rabbitmq
 
-  # amqp worker
+  # amqp worker -- sms
   amqpWorker:
     build:
       context: ./
       dockerfile: src/amqp/sms.Dockerfile
-    image: ranonsew/amqpworker:test1
+    image: ranonsew/amqpworker:test2
     depends_on:
       - rabbitmq
     environment:
@@ -34,12 +35,12 @@ services:
     build:
       context: ./
       dockerfile: src/amqp/amqpTest.Dockerfile
-    image: ranonsew/amqptestserver:test1
+    image: ranonsew/amqptestserver:test2
     depends_on:
       - rabbitmq
-      - amqpWorker
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
     ports:
       - "47170:5101"
+    restart: always
