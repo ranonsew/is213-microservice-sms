@@ -14,7 +14,7 @@ def logError():
   if request.is_json:
     try:
       error_log = json.dumps(request.get_json())
-      sendErrorLog(error_log)
+      sendErrorLog(error_log, "test.error")
       return jsonify({
         "code": 201,
         "message": "Successful sending"
@@ -40,7 +40,7 @@ def logActivity():
   if request.is_json:
     try:
       activity_log = json.dumps(request.get_json())
-      sendActivityLog(activity_log)
+      sendActivityLog(activity_log, "test.info")
       return jsonify({
         "code": 201,
         "message": "Successful sending"
@@ -66,7 +66,7 @@ def sendMessage():
   if request.is_json:
     try:
       message = json.dumps(request.get_json())
-      sendMsg(message)
+      sendMsg(message, "payment.notification")
       return jsonify({
         "code": 201,
         "message": "Successful sending"

@@ -27,18 +27,6 @@ def openConnection():
   )
   return connection.channel()
 
-# open connection and setup queues
-# connection = pika.BlockingConnection(
-#   pika.ConnectionParameters(
-#     host=rabbitHost,
-#     port=rabbitPort,
-#     # locale="en-US",
-#     heartbeat=3600,
-#     blocked_connection_timeout=3600
-#   )
-# )
-# channel = connection.channel()
-
 channel = openConnection()
 # declare the log and notif exchanges
 channel.exchange_declare(exchange=log_exchange, exchange_type="topic", durable=True)
@@ -51,19 +39,19 @@ for queue in queues.values():
 
 
 # export: helper functions for publishing data to amqp
-def send(exchange, queue, data):
+def send(exchange, route_key, data):
   channel.basic_publish(
     exchange=exchange,
-    routing_key=queue.get("key"),
+    routing_key=route_key,
     body=data, # data: string, transformed into byte code
     properties=pika.BasicProperties(delivery_mode = 2) # persistent
   )
 # helper function for sending an error log
-def sendErrorLog(error_log):
-  send(log_exchange, queues.get("error"), error_log)
+def sendErrorLog(error_log, route_key):
+  send(log_exchange, route_key, error_log)
 # helper function for sending an activity log
-def sendActivityLog(activity_log):
-  send(log_exchange, queues.get("activity"), activity_log)
+def sendActivityLog(activity_log, route_key):
+  send(log_exchange, route_key, activity_log)
 # helper function for sending an sms through Twilio
-def sendMsg(smsData):
-  send(notif_exchange, queues.get("notif"), smsData)
+def sendMsg(smsData, route_key):
+  send(notif_exchange, route_key, smsData)
