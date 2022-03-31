@@ -20,6 +20,9 @@ const options = { durable: true };
 const queue = { name: 'Twilio-Sms', key: '#' };
 
 // consume function, opens the connection and channel
+/**
+ * Consume messages from AMQP message broker, RabbitMQ
+ */
 async function consume() {
   const channel = await openConnection();
   await channel.assertExchange(exchange.name, exchange.type, options); // declaring exchange

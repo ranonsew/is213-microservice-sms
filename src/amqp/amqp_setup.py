@@ -17,6 +17,7 @@ rabbitHost = environ.get("rabbit_host") or "localhost"
 rabbitPort = environ.get("rabbit_port") or 5672
 
 def openConnection():
+  '''Opening a blocking connection to RabbitMQ and returning an AMQP channel'''
   connection = pika.BlockingConnection(
     pika.ConnectionParameters(
       host=rabbitHost,
@@ -40,6 +41,12 @@ for queue in queues.values():
 
 # export: helper functions for publishing data to amqp
 def send(exchange, route_key, data):
+  '''
+  @params {String} exchange - amqp exchange
+  @params {String} route_key - queue routing key
+  @params {JSON} data - json data
+  Using the AMQP channel to publish json data to a specified exchange based on routing key
+  '''
   channel.basic_publish(
     exchange=exchange,
     routing_key=route_key,
