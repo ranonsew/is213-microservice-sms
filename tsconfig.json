@@ -14,6 +14,6 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true       /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/**/*.ts", "src/amqp/**/*.ts"],
-  "exclude": ["src/amqp/old_amqp.ts", "node_modules"], // excluding this for now since I dunno how it works
+  "include": ["./src/amqp/**/*.ts"],
+  "exclude": ["./src/amqp/old_amqp.ts", "./node_modules"], // excluding this for now since I dunno how it works
 }
