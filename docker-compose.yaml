@@ -21,8 +21,8 @@ services:
   amqpWorker:
     build:
       context: ./
-      dockerfile: src/amqp/sms.Dockerfile
-    image: ranonsew/amqpworker:test4
+      dockerfile: src/amqp/Docker/sms.Dockerfile
+    image: ranonsew/amqpworker:gulp-test-1
     depends_on:
       - rabbitmq
     environment:
@@ -34,8 +34,8 @@ services:
   activityWorker:
     build:
       context: ./
-      dockerfile: src/amqp/activity.Dockerfile
-    image: ranonsew/activityworker:test4
+      dockerfile: src/amqp/Docker/activity.Dockerfile
+    image: ranonsew/activityworker:gulp-test-1
     depends_on:
       - rabbitmq
     environment:
@@ -47,8 +47,8 @@ services:
   amqpTestServer:
     build:
       context: ./
-      dockerfile: src/amqp/amqpTest.Dockerfile
-    image: ranonsew/amqptestserver:test4
+      dockerfile: src/amqp/Docker/amqpTest.Dockerfile
+    image: ranonsew/amqptestserver:gulp-test-1
     depends_on:
       - rabbitmq
     environment:
