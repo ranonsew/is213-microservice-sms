@@ -10,7 +10,7 @@ notif_exchange = "notif_topic"
 queues = {
   "error": { "name": "Error_Log", "key": "*.error", "exchange": log_exchange },
   "activity": { "name": "Activity_Log", "key": "#", "exchange": log_exchange },
-  "notif": { "name": "Twilio-Sms", "key": "#", "exchange": notif_exchange }
+  "notif": { "name": "Twilio-Sms", "key": "*.notify", "exchange": notif_exchange }
 }
 
 rabbitHost = environ.get("rabbit_host") or "localhost"

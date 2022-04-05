@@ -5,7 +5,7 @@ const exchange = { name: 'log_topic', type: 'topic' };
 const options = { durable: true };
 const queue = { name: 'Error_Log', key: '*.error' };
 async function consume() {
-    const channel = await (0, consumer_setup_1.openConnection)();
+    const channel = await consumer_setup_1.openConnection();
     await channel.assertExchange(exchange.name, exchange.type, options);
     await channel.assertQueue(queue.name, options);
     await channel.consume(queue.name, msg => {

@@ -17,7 +17,7 @@ const {
 // variables for amqp
 const exchange = { name: 'notif_topic', type: 'topic' };
 const options = { durable: true };
-const queue = { name: 'Twilio-Sms', key: '#' };
+const queue = { name: 'Twilio-Sms', key: '*.notify' };
 
 // consume function, opens the connection and channel
 async function consume() {

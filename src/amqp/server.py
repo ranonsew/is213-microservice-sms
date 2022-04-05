@@ -66,7 +66,8 @@ def sendMessage():
   if request.is_json:
     try:
       message = json.dumps(request.get_json())
-      sendMsg(message, "payment.notification")
+      sendMsg(message, "payment.notify")
+      sendActivityLog(message, "notify.info")
       return jsonify({
         "code": 201,
         "message": "Successful sending"

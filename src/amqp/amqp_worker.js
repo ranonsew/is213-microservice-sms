@@ -15,10 +15,10 @@ const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER } = process.e
 // variables for amqp
 const exchange = { name: 'notif_topic', type: 'topic' };
 const options = { durable: true };
-const queue = { name: 'Twilio-Sms', key: '#' };
+const queue = { name: 'Twilio-Sms', key: '*.notify' };
 // consume function, opens the connection and channel
 async function consume() {
-    const channel = await (0, consumer_setup_1.openConnection)();
+    const channel = await consumer_setup_1.openConnection();
     await channel.assertExchange(exchange.name, exchange.type, options); // declaring exchange
     await channel.assertQueue(queue.name, options); // declaring the queue
     await channel.consume(queue.name, async (msg) => {
